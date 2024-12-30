@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuestionPaperMaker.Views.EditQuestionPaperPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Entry Placeholder="Title"
+                   Text="{Binding PaperTitle}"/>
+
+            <Editor Placeholder="Description"
+                    Text="{Binding PaperDescription}"
+                    HeightRequest="100"/>
+
+            <Button Text="Add Configuration"
+                    Command="{Binding AddConfigurationCommand}"
+                    Style="{StaticResource BaseButtonStyle}"/>
+
+            <CollectionView ItemsSource="{Binding Configurations}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,5" Padding="10">
+                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+                                <Picker Grid.Row="0" Grid.Column="0"
+                                        Title="Select Category"
+                                        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Categories}"
+                                        ItemDisplayBinding="{Binding Name}"
+                                        SelectedItem="{Binding CategoryId}"/>
+
+                                <Picker Grid.Row="1" Grid.Column="0"
+                                        Title="Select Difficulty"
+                                        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Difficulties}"
+                                        ItemDisplayBinding="{Binding Level}"
+                                        SelectedItem="{Binding DifficultyId}"/>
+
+                                <Picker Grid.Row="2" Grid.Column="0"
+                                        Title="Select Question Type"
+                                        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.QuestionTypes}"
+                                        ItemDisplayBinding="{Binding Type}"
+                                        SelectedItem="{Binding QuestionTypeId}"/>
+
+                                <Entry Grid.Row="3" Grid.Column="0"
+                                       Placeholder="Number of Questions"
+                                       Text="{Binding NumQuestions}"
+                                       Keyboard="Numeric"/>
+
+                                <Button Grid.Row="0" Grid.Column="1"
+                                        Grid.RowSpan="4"
+                                        Text="Remove"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RemoveConfigurationCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Style="{StaticResource DangerButtonStyle}"
+                                        VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Save Changes"
+                    Command="{Binding SaveCommand}"
+                    Style="{StaticResource BaseButtonStyle}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}"/>
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                             IsRunning="{Binding IsBusy}"
+                             HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage> 

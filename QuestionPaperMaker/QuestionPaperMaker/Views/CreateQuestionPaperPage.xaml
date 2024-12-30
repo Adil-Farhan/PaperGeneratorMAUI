@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:QuestionPaperMaker.ViewModels"
+             x:Class="QuestionPaperMaker.Views.CreateQuestionPaperPage"
+             x:DataType="vm:CreateQuestionPaperViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Label Text="Title"/>
+            <Entry Text="{Binding PaperTitle}"
+                   Placeholder="Enter paper title"/>
+
+            <Label Text="Description"/>
+            <Editor Text="{Binding Description}"
+                    Placeholder="Enter description"
+                    HeightRequest="100"/>
+
+            <Label Text="Add Configuration" 
+                   FontSize="18" 
+                   Margin="0,20,0,10"/>
+
+            <Label Text="Category"/>
+            <Picker ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding SelectedCategory}"
+                    ItemDisplayBinding="{Binding Name}"/>
+
+            <Label Text="Difficulty"/>
+            <Picker ItemsSource="{Binding Difficulties}"
+                    SelectedItem="{Binding SelectedDifficulty}"
+                    ItemDisplayBinding="{Binding Level}"/>
+
+            <Label Text="Question Type"/>
+            <Picker ItemsSource="{Binding QuestionTypes}"
+                    SelectedItem="{Binding SelectedQuestionType}"
+                    ItemDisplayBinding="{Binding Type}"/>
+
+            <Label Text="Number of Questions"/>
+            <Entry Text="{Binding NumQuestions}"
+                   Keyboard="Numeric"/>
+
+            <Button Text="Add Configuration"
+                    Command="{Binding AddConfigurationCommand}"
+                    Margin="0,10"/>
+
+            <Label Text="Configurations" 
+                   FontSize="18" 
+                   Margin="0,20,0,10"/>
+
+            <CollectionView ItemsSource="{Binding Configurations}"
+                          HeightRequest="200">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:QuestionConfiguration">
+                        <Frame Margin="0,0,0,10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding CategoryId, StringFormat='Category: {0}'}"/>
+                                    <Label Text="{Binding DifficultyId, StringFormat='Difficulty: {0}'}"/>
+                                    <Label Text="{Binding QuestionTypeId, StringFormat='Type: {0}'}"/>
+                                    <Label Text="{Binding NumQuestions, StringFormat='Questions: {0}'}"/>
+                                </VerticalStackLayout>
+
+                                <Button Grid.Column="1"
+                                        Text="Remove"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CreateQuestionPaperViewModel}}, Path=RemoveConfigurationCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource Error}"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Save"
+                    Command="{Binding SaveCommand}"
+                    Margin="0,20"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage> 

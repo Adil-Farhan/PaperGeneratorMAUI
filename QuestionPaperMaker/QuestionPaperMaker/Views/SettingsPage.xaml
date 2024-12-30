@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuestionPaperMaker.Views.SettingsPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Frame>
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="API Settings" 
+                           FontSize="18" 
+                           FontAttributes="Bold"/>
+                    
+                    <Entry Placeholder="API Base URL"
+                           Text="{Binding ApiBaseUrl}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame>
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Appearance" 
+                           FontSize="18" 
+                           FontAttributes="Bold"/>
+                    
+                    <HorizontalStackLayout>
+                        <Label Text="Dark Mode"
+                               VerticalOptions="Center"/>
+                        <Switch IsToggled="{Binding DarkMode}"
+                                HorizontalOptions="End"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame>
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Default Values" 
+                           FontSize="18" 
+                           FontAttributes="Bold"/>
+                    
+                    <Entry Placeholder="Default Paper Title"
+                           Text="{Binding DefaultPaperTitle}"/>
+                    
+                    <Entry Placeholder="Default Questions Per Configuration"
+                           Text="{Binding DefaultQuestionsPerConfiguration}"
+                           Keyboard="Numeric"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button Text="Save Settings"
+                    Command="{Binding SaveCommand}"
+                    Style="{StaticResource BaseButtonStyle}"/>
+
+            <Button Text="Reset to Defaults"
+                    Command="{Binding ResetCommand}"
+                    Style="{StaticResource DangerButtonStyle}"/>
+
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                             IsRunning="{Binding IsBusy}"
+                             HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage> 
